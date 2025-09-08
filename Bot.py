@@ -1,9 +1,11 @@
+import os
 import requests
 
-API_KEY = "933240ecc3fd4cdd9cca22025951a5e2"
-BOT_TOKEN = "7274048348:AAFUwo5EGOvh3EMFGqDHNw14bEhQ6e7g1c8"
-CHAT_ID = "-1002404352296"   # مستقیم رشته
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+API_KEY = os.getenv("API_KEY")
 TETHER_BUY_LINK = "https://bit24.cash/auth?referral=C9BB7CYX"
+
 
 def get_tether_price():
     url = "https://rest.bit24.cash/pro/capi/v1/markets?page=1"
