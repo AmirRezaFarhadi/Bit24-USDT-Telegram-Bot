@@ -2,8 +2,7 @@ import os
 import requests
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-# لیست کانال‌ها - می‌تونی هر چندتا chat_id اینجا بزاری
-CHAT_IDS = os.getenv("CHAT_IDS", "").split(",")  
+CHAT_IDS = os.getenv("CHAT_ID", "").split(",")  # چند کانال با , جدا کن
 API_KEY = os.getenv("API_KEY")
 TETHER_BUY_LINK = "https://bit24.cash/auth?referral=C9BB7CYX"
 
@@ -34,7 +33,7 @@ def get_tether_price():
 
     tether_price = tether_data.get("last_order", "نامشخص")
     tether_price_formatted = f"{float(tether_price):,.0f}"
-    result = f"💰 **قیمت لحظه‌ای تتر:**\n🔹 **{tether_price_formatted} تومان**"
+    result = f"💰 <b>قیمت لحظه‌ای تتر:</b>\n\n🔹 <b>{tether_price_formatted} تومان</b>"
     return tether_price_formatted, result
 
 
@@ -51,12 +50,12 @@ def send_to_telegram(text):
         payload = {
             "chat_id": chat_id.strip(),
             "text": text,
-            "parse_mode": "Markdown",
+            "parse_mode": "HTML",  # به جای Markdown از HTML استفاده می‌کنیم
             "reply_markup": keyboard
         }
         try:
             r = requests.post(url, json=payload, timeout=10)
-            print(f"📢 ارسال به {chat_id}:", r.text)
+            print(f"📢 ارسال به {chat_id}: {r.status_code} {r.text}")
         except Exception as e:
             print(f"❌ خطا در ارسال به {chat_id}:", e)
 
