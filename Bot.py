@@ -2,7 +2,8 @@ import os
 import requests
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+# لیست کانال‌ها - می‌تونی هر چندتا chat_id اینجا بزاری
+CHAT_IDS = os.getenv("CHAT_IDS", "").split(",")  
 API_KEY = os.getenv("API_KEY")
 TETHER_BUY_LINK = "https://bit24.cash/auth?referral=C9BB7CYX"
 
@@ -36,6 +37,7 @@ def get_tether_price():
     result = f"💰 **قیمت لحظه‌ای تتر:**\n🔹 **{tether_price_formatted} تومان**"
     return tether_price_formatted, result
 
+
 def send_to_telegram(text):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
     keyboard = {
@@ -43,17 +45,21 @@ def send_to_telegram(text):
             [{"text": "💰 خرید تتر", "url": TETHER_BUY_LINK}]
         ]
     }
-    payload = {
-        "chat_id": CHAT_ID,
-        "text": text,
-        "parse_mode": "Markdown",
-        "reply_markup": keyboard
-    }
-    try:
-        r = requests.post(url, json=payload, timeout=10)
-        print("📢 پاسخ تلگرام:", r.text)
-    except Exception as e:
-        print("❌ خطا در ارسال پیام:", e)
+    for chat_id in CHAT_IDS:
+        if not chat_id.strip():
+            continue
+        payload = {
+            "chat_id": chat_id.strip(),
+            "text": text,
+            "parse_mode": "Markdown",
+            "reply_markup": keyboard
+        }
+        try:
+            r = requests.post(url, json=payload, timeout=10)
+            print(f"📢 ارسال به {chat_id}:", r.text)
+        except Exception as e:
+            print(f"❌ خطا در ارسال به {chat_id}:", e)
+
 
 if __name__ == "__main__":
     price, text = get_tether_price()
@@ -61,8 +67,3 @@ if __name__ == "__main__":
         send_to_telegram(text)
     else:
         print(text)
-
-
-
-
-
