@@ -33,7 +33,7 @@ def get_tether_price():
 
     tether_price = tether_data.get("last_order", "نامشخص")
     tether_price_formatted = f"{float(tether_price):,.0f}"
-    result = f"💰 <b>قیمت لحظه‌ای تتر:</b>\n🔹 <b>{tether_price_formatted} تومان</b>"
+    result = f"💰 <b>قیمت لحظه‌ای تتر:</b>\n🔹 <b>{tether_price_formatted} تومان</b> \n <b> #دلار #تتر </b>" 
     return tether_price_formatted, result
 
 
