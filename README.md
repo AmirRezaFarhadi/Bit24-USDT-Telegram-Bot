@@ -83,10 +83,6 @@ Show charts in the channel.
 
 Pull requests are welcome! Please open an issue first to discuss what you would like to change.
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
 ## 🆘 Need Help?
 
 If you get stuck:
